@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd" [
+<!ENTITY contextInclude SYSTEM "org/springframework/web/context/WEB-INF/contextInclude.xml">
+]>
+
+<beans>
+
+	<!-- dao层配置 -->
+	<bean id="userDao" class="org.fun.shuangye.base.dao.UserBaseDao">
+		<property name="sessionfactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="noteDao" class="org.fun.shuangye.base.dao.NoteBaseDao">
+		<property name="sessionfactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="titleDao" class="org.fun.shuangye.base.dao.TitleBaseDao">
+		<property name="sessionfactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="recordDao" class="org.fun.shuangye.base.dao.RecordBaseDao">
+		<property name="sessionfactory" ref="sessionFactory"></property>
+	</bean>
+	<!-- server层配置 -->
+	<bean id="usermanagerbase" class="org.fun.shuangye.base.server.UserBeanManager">
+		<property name="userdao" ref="userDao"></property>
+	</bean>
+	<bean id="notemanagerbase" class="org.fun.shuangye.base.server.NoteBeanManager">
+		<property name="notedao" ref="noteDao"></property>
+	</bean>
+	<bean id="titlemanagerbase" class="org.fun.shuangye.base.server.TitleBeanManager">
+		<property name="titledao" ref="titleDao"></property>
+	</bean>
+	<bean id="recordmanagerbase" class="org.fun.shuangye.base.server.RecordBeanManager">
+		<property name="recorddao" ref="recordDao"></property>
+	</bean>
+	
+	<!-- 继承事务配置 -->
+	<bean id="usermanager" parent="transactionbase">
+		<property name="target" ref="usermanagerbase"></property>
+	</bean>
+		<bean id="notemanager" parent="transactionbase">
+		<property name="target" ref="notemanagerbase"></property>
+	</bean>
+		<bean id="titlemanager" parent="transactionbase">
+		<property name="target" ref="titlemanagerbase"></property>
+	</bean>
+		<bean id="recordmanager" parent="transactionbase">
+		<property name="target" ref="recordmanagerbase"></property>
+	</bean>
+</beans>

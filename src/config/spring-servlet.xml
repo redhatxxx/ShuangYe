@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"  
+ xmlns:context="http://www.springframework.org/schema/context"  
+ xmlns:p="http://www.springframework.org/schema/p"  
+ xmlns:mvc="http://www.springframework.org/schema/mvc"  
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+ xsi:schemaLocation="http://www.springframework.org/schema/beans  
+      http://www.springframework.org/schema/beans/spring-beans-4.2.xsd  
+      http://www.springframework.org/schema/context  
+      http://www.springframework.org/schema/context/spring-context.xsd  
+      http://www.springframework.org/schema/mvc  
+      http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd">
+      
+	
+	<!-- 配置式控制器及解析 
+	<bean name="/fun/test" class="org.fun.web.controller.UserController" />
+	<bean name="/userlogin" class="org.fun.web.controller.UserLoginController"/>
+	<bean name="/userlogin.action" class="org.fun.web.controller.WelcomeController"/>-->
+	<!-- 一个controller多个方法注册 
+	<bean name="/userregister" class="org.fun.web.controller.RegisterAndWelController">-->
+		<!-- 引用方法解析器
+		<property name="methodNameResolver">
+		  <ref bean="parameterMethodResolver"/>
+		</property>
+	</bean> -->
+	<!-- 配置方法解析器（spring自带）
+	<bean id="parameterMethodResolver" class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver"> -->
+		<!-- 请求标志（自定义）
+		<property name="paramName" value="action"></property>
+	</bean> -->
+	
+	<!-- 注解式控制器配置 -->
+	<context:component-scan base-package="org.fun.shuangye.controller" />
+	<context:component-scan base-package="org.fun.shuangye.base.server" />
+	<mvc:annotation-driven/>
+	<mvc:resources location="/images/" mapping="/images/**"></mvc:resources>
+	<mvc:resources location="/css/" mapping="/css/**"></mvc:resources>
+	<mvc:resources location="/js/" mapping="/js/**"></mvc:resources>
+	<!-- 上传文件配置 -->
+ 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" >  
+ 		<property name="defaultEncoding" value="utf-8"></property>
+		<property name="maxUploadSize" value="1024000000"></property>
+		<property name="maxInMemorySize" value="40960"></property>
+	</bean>
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+	<!-- json数据支持 
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+	 <property name="messageConverters">
+	  <list>
+	   <bean
+	    class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
+	  </list>
+	 </property>
+	</bean>-->
+ </beans>  
