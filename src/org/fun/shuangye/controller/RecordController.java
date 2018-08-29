@@ -59,4 +59,21 @@ public class RecordController {
 			resultdata.put("result", "fail");
 		return resultdata;
 	}
+	
+	@RequestMapping(value="/getRecordById")
+	@ResponseBody
+	private Map<String,String> getRecordById(@RequestBody JSONObject requestjson){
+		Map datamap = (Map) requestjson;
+		Map resultdata = new HashMap();
+		String record_id = (String)datamap.get("record_id");
+		RecordBaseBean record = this.recordmanager.getRecordById(record_id);
+		if(record!=null) {
+			resultdata.put("result", "success");
+			resultdata.put("recorddata", record.getRecord_data());
+		}
+		else {
+			resultdata.put("result", "fail");
+		}
+		return resultdata;
+	}
 }
