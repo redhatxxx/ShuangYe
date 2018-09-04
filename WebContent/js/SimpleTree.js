@@ -72,7 +72,6 @@ $(function(){
 });
 
 function loadrecord(record_id){
-	alert(record_id);
 	$.ajax({
 		type : "post",
 		dataType : "json",
@@ -96,5 +95,17 @@ function loadrecord(record_id){
 			alert("error");
 		}
 	});
-
+	var a = document.getElementById(record_id);
+	document.getElementById("locaterecord").innerText=a.innerText;
+	document.getElementById("torecord").setAttribute('style','visibility:visible');
+}
+function setlocatenote(noteid){
+	var a = document.getElementById(noteid);
+	document.getElementById("locatenote").innerText=a.innerText;
+	
+}
+function setlocatetitle(titleid){
+	var a = document.getElementById(titleid);
+	document.getElementById("locatetitle").innerText=a.innerText;
+	document.getElementById("totitle").setAttribute('style','visibility:visible');
 }

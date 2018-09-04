@@ -24,6 +24,12 @@
 						if(tagref=="record"){
 							loadrecord($(a).attr("id"));
 						}
+						if(tagref=="note"){
+							setlocatenote($(a).attr("id"));
+						}
+						if(tagref=="title"){
+							setlocatetitle($(a).attr("id"));
+						}
 					}
 				}
 			});
@@ -32,13 +38,13 @@
 </head>
 <body>
 	<f:view>
-		<div class="st_tree" style="width:400px;margin:0 auto;">
+		<div class="st_tree" style="width:400px;margin:0 left;">
 			<ul>
 				<c:forEach items="${notelist }" var="note">
-					<li><a href="#" ref="note">${note.note_name }</a></li>
+					<li><a href="#" ref="note" id = ${note.note_id }>${note.note_name }</a></li>
 						<ul>
 							<c:forEach items="${note.titlelist }" var="title">
-								<li><a href="#" ref="title">${title.title_name }</a></li>
+								<li><a href="#" ref="title" id =${title.title_id }>${title.title_name }</a></li>
 									<ul>
 										<c:forEach items="${title.recordlist }" var="record">
 											<li><a href="#" ref="record" id=${record.record_id }>${record.record_name }</a></li>
@@ -49,7 +55,12 @@
 				</c:forEach>
 			</ul>
 		</div>
-		
+		<div>
+			<label>当前位置:</label>
+			<a href="#" id="locatenote"> </a>			
+			<label style="visibility:hidden" id="totitle">>>></label><a href="#" id="locatetitle"> </a>
+			<label style="visibility:hidden" id="torecord">>>></label><a href="#" id = "locaterecord"> </a>
+		</div>
 		<div>
 		    <div id="editor">
 		        <p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p>
