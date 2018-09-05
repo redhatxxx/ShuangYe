@@ -30,7 +30,7 @@ public class RecordController {
 	private Map<String,String> saveNewRecord(@RequestBody JSONObject requestJson){
 		RecordBaseBean record = new RecordBaseBean();
 		Map datamap = (Map)requestJson;
-		Map resultdata = new HashMap();
+		Map<String, String> resultdata = new HashMap<String, String>();
 		String title_id = (String)datamap.get("title_id");
 		String record_data = (String)datamap.get("record_data");
 		String record_name  = (String)datamap.get("record_name");
@@ -64,7 +64,7 @@ public class RecordController {
 	@ResponseBody
 	private Map<String,String> getRecordById(@RequestBody JSONObject requestjson){
 		Map datamap = (Map) requestjson;
-		Map resultdata = new HashMap();
+		Map<String, String> resultdata = new HashMap<String, String>();
 		String record_id = (String)datamap.get("record_id");
 		RecordBaseBean record = this.recordmanager.getRecordById(record_id);
 		if(record!=null) {

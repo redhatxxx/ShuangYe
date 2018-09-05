@@ -3,6 +3,7 @@ package org.fun.shuangye.controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,12 +16,16 @@ import org.fun.shuangye.base.bean.UserBaseBean;
 import org.fun.shuangye.base.server.IUserBeanManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import net.sf.json.JSONObject;
+
 @Controller
-@RequestMapping(value="/user")
+@RequestMapping(value="/User")
 public class UserController{
 
 //	@Autowired(required=true)
@@ -31,29 +36,42 @@ public class UserController{
 	
 	//注册用户
 	@RequestMapping(value="/user_register")
-	public String addUser(UserBaseBean user,Model model,HttpSession httpSession){
-		if(usermanager.checkUserName(user.getUser_name())){
-			httpSession.setAttribute("unique_user_flag", "0");
-			httpSession.setAttribute("errormsg", "用户名已存在！");
-			return "/jsp/user/userregister";
+	@ResponseBody
+	public Map addUser(@RequestBody JSONObject param){
+		Map datamap = (Map)param;
+		Map dataresult = new HashMap();
+		if(usermanager.checkUserName((String)datamap.get("username"))){
+			dataresult.put("backstatus", "fail");
+			dataresult.put("errormsg", "用户名已存在！");
+			return dataresult;
 		}
+		UserBaseBean user = new UserBaseBean();
+		user.setUser_name((String)datamap.get("username"));
+		user.setUser_password((String)datamap.get("password"));
 		usermanager.addUser(user);
-		return "redirect:/index";
+		dataresult.put("backstatus", "success");
+		return dataresult;
 	}
 	
 	//用户登录
 	@RequestMapping(value="/user_login")
-	public String userLogin(UserBaseBean dao,Model model,HttpSession httpSession){
-		String username = dao.getUser_name();
-		String password = dao.getUser_password();
+	@ResponseBody
+	public Map userLogin(@RequestBody JSONObject userinfo,Model model,HttpSession httpSession){
+		Map datamap = (Map) userinfo;
+		String username = (String)datamap.get("username");
+		String password = (String)datamap.get("password");
 		Map loginresult = usermanager.findUserByNameAndPassWord(username,password);
-		
+
+		Map resultdata = new HashMap();
 		Object errormsg = loginresult.get("errormsg");
+		//登录失败返回失败标志和信息
 		if(errormsg!=null&&!errormsg.toString().equals("")){
-			httpSession.setAttribute("flag", "0");
-			httpSession.setAttribute("errormsg", errormsg.toString());
-			return "/jsp/user/userlogin";
+			httpSession.setAttribute("flag", "1");
+			resultdata.put("backstatus", "fail");
+			resultdata.put("errormsg", (String)errormsg);
+			return resultdata;
 		}else{
+			//登录成功，将相关信息写入session
 			String showname = username;
 			if(loginresult.get("nickname")!=null&&
 					!loginresult.get("nickname").toString().equals(""))
@@ -62,35 +80,13 @@ public class UserController{
 			httpSession.setAttribute("flag", "1");
 			httpSession.setAttribute("user_id", user_id);
 			httpSession.setAttribute("showname", showname);
-			if(username.equals("redhat")){
-				httpSession.setAttribute("managerflag", "1");
-			}
-			return "redirect:/index";
+			resultdata.put("backstatus", "success");
+			return resultdata;
 		}
 
 
 	} 
-
-	//用户登录
-	@RequestMapping(value="/loginwithuuid")
-	public String loginwithuuid(String uuid,Model model,HttpSession httpSession){
-		System.out.println("uuid:"+uuid);
-		UserBaseBean userbean = usermanager.getUser(uuid);
-		
-		if(userbean==null){
-			
-		}else{
-			String showname = userbean.getUser_name();
-			String nickname = userbean.getUser_nickname();
-			if(nickname!=null&&!nickname.equals(""))
-				showname = nickname;
-			String user_id = userbean.getUser_id();
-			httpSession.setAttribute("flag", "1");
-			httpSession.setAttribute("user_id", user_id);
-			httpSession.setAttribute("showname", showname);
-		}
-		return "redirect:/index";
-	} 
+	
 	//用户登出
 	@RequestMapping(value="/user_logout")
 	public String userLogout(Model model,HttpSession httpSession){
@@ -186,7 +182,7 @@ public class UserController{
 	//用户登录页面
 	@RequestMapping(value="/login")
 	public String loginView(){
-		return "/jsp/user/userlogin";
+		return "/jsp/user/loginpage";
 	}
 	//用户注册页面
 	@RequestMapping(value="/s_userinfo")
@@ -204,7 +200,7 @@ public class UserController{
 	//用户注册页面
 	@RequestMapping(value="/register")
 	public String registerView(){
-		return "/jsp/user/userregister";
+		return "/jsp/user/registerpage";
 	}
 	//用户选择图片页面
 	@RequestMapping(value="/jumpuserpic")
@@ -232,5 +228,25 @@ public class UserController{
 		model.addAttribute("username", user.getUser_name());
 		model.addAttribute("userid", user.getUser_id());
 		return "/jsp/user/welcomeuser";
+	}
+	
+	@RequestMapping(value="/loginwithtoken")
+	@ResponseBody
+	public Map loginWithUserId(@RequestBody JSONObject param,HttpSession httpSession) {
+		Map datamap = (Map)param;
+		String token_id = (String)datamap.get("token_id");
+		UserBaseBean user = usermanager.getUser(token_id);
+		String showname = user.getUser_name();
+		String nickname = user.getUser_nickname();
+		if(nickname!=null&&
+				!nickname.equals(""))
+			showname = nickname;
+		String user_id = user.getUser_id();
+		httpSession.setAttribute("flag", "1");
+		httpSession.setAttribute("user_id", user_id);
+		httpSession.setAttribute("showname", showname);
+		Map resultdata = new HashMap();
+		resultdata.put("backstatus", "success");
+		return resultdata;
 	}
 }

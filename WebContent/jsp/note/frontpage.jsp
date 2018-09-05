@@ -10,10 +10,21 @@
 	@import url("<c:url value="/css/SimpleTree.css"/>");
 	</style>
 	<script type="text/javascript" src="<c:url value="../js/jquery-3.1.1.min.js"/>"></script>
+	<script type="text/javascript" src="<c:url value="../js/useroperation.js"/>"></script>
 	<script type="text/javascript" src="<c:url value="../js/cookieoperation.js"/>"></script>
 	<script type="text/javascript" src="<c:url value="../js/SimpleTree.js"/>"></script>
 	<script type="text/javascript" src="<c:url value="../js/wangEditor.min.js"/>"></script>
 	<script type="text/javascript">
+		window.onload = function(){
+			var flag = "${sessionScope.flag }";
+			if(flag!="1"){
+				var cookievalue = getCookie("fun_u_uuid");
+				if(cookievalue==null)
+					loginwithcookie(cookievalue);
+			}else{
+				addcookie("fun_u_uuid","${sessionScope.user_id }",0);
+			}
+		}
 		$(function(){
 			$(".st_tree").SimpleTree({
 				/* 可无视代码部分*/
@@ -37,6 +48,22 @@
 	</script>
 </head>
 <body>
+	<div align="right">
+		<c:if test="${sessionScope.flag!=1 }">
+			<a id="usertitle" href="javascript:void(0)" onclick="jumptouserinfo()">游客</a> 
+			<a id="jumplogin" href="javascript:void(0)" onclick="jumptologin()">登录</a> 
+			<a id="jumpregiste" href="javascript:void(0)" onclick="jumptoregister()">注册</a> 
+		</c:if>
+		<c:if test="${sessionScope.flag==1 }">
+			<a id="usertitle" href="javascript:void(0)" onclick="jumptouserinfo()">${sessionScope.showname }</a> 
+			<a id="logout" href="javascript:void(0)" onclick="userlogout()">注销</a> 
+			<c:if test="${sessionScope.managerflag==1 }">
+				<a id="manager"	href="javascript:void(0)" onclick="jumpmanager()">管理员入口</a>
+			</c:if>
+		</c:if>
+		
+	</div>
+	<br>
 	<f:view>
 		<div class="st_tree" style="width:400px;margin:0 left;">
 			<ul>
