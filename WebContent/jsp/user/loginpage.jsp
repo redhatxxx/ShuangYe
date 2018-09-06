@@ -5,13 +5,15 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<script type="text/javascript" src="<c:url value="../js/jquery-3.1.1.min.js"/>"></script>
 	<script type="text/javascript" src="<c:url value="../js/useroperation.js"/>"></script>
+	<script type="text/javascript" src="<c:url value="../js/checkinfo.js"/>"></script>
 	<script type="text/javascript" src="<c:url value="../js/cookieoperation.js"/>"></script>
 <title>用户登录</title>
 </head>
 <body>
 	<div>
-		<form method="post" id="userloginform">
+<!-- 		<form method="post" id="userloginform"> -->
 			<label for="name">Name: </label> <input type="text" id="user_name"	name="user_name" value="" tabindex="1"> 
 			<label for="password">PassWord: </label> <input type="password"	id="user_password" name="user_password" value="" tabindex="1">
 			<br>
@@ -21,7 +23,7 @@
 				<input type="button" id="submit_login" tabindex="5"
 					onclick="user_login()" value="Login">
 			</div>
-		</form>
+<!-- 		</form> -->
 	</div>
 
 </body>

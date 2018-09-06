@@ -16,10 +16,11 @@
 	<script type="text/javascript" src="<c:url value="../js/wangEditor.min.js"/>"></script>
 	<script type="text/javascript">
 		window.onload = function(){
+			alrt(1);
 			var flag = "${sessionScope.flag }";
 			if(flag!="1"){
 				var cookievalue = getCookie("fun_u_uuid");
-				if(cookievalue==null)
+				if(cookievalue!=null)
 					loginwithcookie(cookievalue);
 			}else{
 				addcookie("fun_u_uuid","${sessionScope.user_id }",0);

@@ -19,7 +19,7 @@ import javax.persistence.TemporalType;
  * 
  * */
 @Entity
-@Table(name="SYS_FUN_USER")
+@Table(name="SYS_SY_USER")
 public class UserBaseBean{
 
 	@Column(name="sculptrue_path")

@@ -36,6 +36,14 @@
 	<mvc:resources location="/images/" mapping="/images/**"></mvc:resources>
 	<mvc:resources location="/css/" mapping="/css/**"></mvc:resources>
 	<mvc:resources location="/js/" mapping="/js/**"></mvc:resources>
+	 <!-- 拦截器 -->  
+    <mvc:interceptors>  
+        <!-- 多个拦截器,顺序执行 -->  
+        <mvc:interceptor>  
+           <mvc:mapping path="/**" /><!-- 如果不配置或/**,将拦截所有的Controller -->  
+           <bean class="org.fun.shuangye.interceptor.CommonInterceptor"></bean>  
+        </mvc:interceptor>  
+    </mvc:interceptors>
 	<!-- 上传文件配置 -->
  	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" >  
  		<property name="defaultEncoding" value="utf-8"></property>

@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import org.fun.shuangye.base.bean.UserBaseBean;
 import org.fun.shuangye.base.server.IUserBeanManager;
+import org.fun.shuangye.common.CookieUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -56,7 +57,7 @@ public class UserController{
 	//用户登录
 	@RequestMapping(value="/user_login")
 	@ResponseBody
-	public Map userLogin(@RequestBody JSONObject userinfo,Model model,HttpSession httpSession){
+	public Map userLogin(@RequestBody JSONObject userinfo,Model model,HttpSession httpSession,HttpServletResponse response){
 		Map datamap = (Map) userinfo;
 		String username = (String)datamap.get("username");
 		String password = (String)datamap.get("password");
@@ -81,6 +82,7 @@ public class UserController{
 			httpSession.setAttribute("user_id", user_id);
 			httpSession.setAttribute("showname", showname);
 			resultdata.put("backstatus", "success");
+			CookieUtils.addCookie(response, "fun_u_uuid", user_id, null);
 			return resultdata;
 		}
 
@@ -234,8 +236,13 @@ public class UserController{
 	@ResponseBody
 	public Map loginWithUserId(@RequestBody JSONObject param,HttpSession httpSession) {
 		Map datamap = (Map)param;
+		Map resultdata = new HashMap();
 		String token_id = (String)datamap.get("token_id");
 		UserBaseBean user = usermanager.getUser(token_id);
+		if(user==null) {
+			resultdata.put("backstatus", "fail");
+			return resultdata;
+		}
 		String showname = user.getUser_name();
 		String nickname = user.getUser_nickname();
 		if(nickname!=null&&
@@ -245,7 +252,6 @@ public class UserController{
 		httpSession.setAttribute("flag", "1");
 		httpSession.setAttribute("user_id", user_id);
 		httpSession.setAttribute("showname", showname);
-		Map resultdata = new HashMap();
 		resultdata.put("backstatus", "success");
 		return resultdata;
 	}

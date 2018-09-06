@@ -6,9 +6,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>用户注册</title>
-<script type="text/javascript" src="<c:url value="/jsfiles/jquery-3.1.1.min.js"/>"></script>
+	<script type="text/javascript" src="<c:url value="../js/jquery-3.1.1.min.js"/>"></script>
 	<script type="text/javascript" src="<c:url value="../js/useroperation.js"/>"></script>
-<script type="text/javascript" src="<c:url value="../js/checkinfo.js"/>"></script>
+	<script type="text/javascript" src="<c:url value="../js/checkinfo.js"/>"></script>
 </head>
 <body>
 	<div id="message_area">

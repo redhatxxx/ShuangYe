@@ -1,5 +1,6 @@
 package org.fun.shuangye.base.dao;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -53,8 +54,9 @@ public class NoteBaseDao implements INoteBaseDao {
 	@Override
 	public List<NoteBaseBean> getNoteList(List conditions) {
 		// TODO Auto-generated method stub
-		String hql = " from NoteBaseBean ";
+		String hql = " from NoteBaseBean t where 1=1 ";
 		Query query = null;
+		List params = new ArrayList();
 		if(conditions!=null){
 			StringBuffer extrasql = new StringBuffer();
 			for(String condition : (List<String>)conditions) {
@@ -62,10 +64,14 @@ public class NoteBaseDao implements INoteBaseDao {
 				if(strs!=null&&strs.length==2) {
 					extrasql.append(" and ");
 					extrasql.append("t."+strs[0]);
-					extrasql.append("="+strs[1]);
+					extrasql.append("= ? ");
+					params.add(strs[1]);
 				}
 			}
 			query= this.sessionfactory.getCurrentSession().createQuery(hql+extrasql.toString());
+			for(int i= 0;i<params.size();i++) {
+				query.setString(i,(String) params.get(i));
+			}
 		}else {
 			query= this.sessionfactory.getCurrentSession().createQuery(hql);
 		}

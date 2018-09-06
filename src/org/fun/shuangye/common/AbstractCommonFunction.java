@@ -9,6 +9,9 @@ import java.util.Date;
  * */
 public class AbstractCommonFunction {
 
+	// cookie的有效期默认为30天
+	public final static int COOKIE_MAX_AGE = 60 * 60 * 24 * 30; 
+
 	/**
 	 * 获取当前时间
 	 * */

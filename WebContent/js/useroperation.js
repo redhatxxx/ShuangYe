@@ -88,7 +88,7 @@ function user_login(){
 		//提交内容，富文本信息及当前用户id
 		data :JSON.stringify({
 			'username' : username,
-			'password':userpassword
+			'password' : userpassword
 		}),
 		success : function(data) {
 			var backstatus = data.backstatus;
