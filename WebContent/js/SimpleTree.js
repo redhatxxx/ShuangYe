@@ -3,6 +3,9 @@ Author：张浩华
 Date：2011.11.25 0:12
 Version：SimpleTree 1.0
 */
+var currentnote="";
+var currenttilte="";
+var currentrecord="";
 
 $(function(){
 	$.fn.extend({
@@ -96,16 +99,54 @@ function loadrecord(record_id){
 		}
 	});
 	var a = document.getElementById(record_id);
+	currentrecord = record_id;
 	document.getElementById("locaterecord").innerText=a.innerText;
 	document.getElementById("torecord").setAttribute('style','visibility:visible');
 }
 function setlocatenote(noteid){
 	var a = document.getElementById(noteid);
+	currentnote = noteid;
 	document.getElementById("locatenote").innerText=a.innerText;
 	
 }
 function setlocatetitle(titleid){
 	var a = document.getElementById(titleid);
+	currenttilte = titleid;
 	document.getElementById("locatetitle").innerText=a.innerText;
 	document.getElementById("totitle").setAttribute('style','visibility:visible');
+}
+
+function cleartitle(){
+	document.getElementById("totitle").setAttribute('style','visibility:hidden');
+	document.getElementById("torecord").setAttribute('style','visibility:hidden');
+	document.getElementById("locatetitle").innerText="";
+	document.getElementById("locaterecord").innerText="";
+	currentrecord = "";
+	currenttilte = "";
+	seteditorinfo("");
+}
+
+function clearrecord(){
+	currentrecord="";
+	document.getElementById("torecord").setAttribute('style','visibility:hidden');
+	document.getElementById("locaterecord").innerText="";
+	seteditorinfo("");
+}
+
+function addnewaction(){
+	if(currentrecord!=""){
+
+	}
+	if(currenttilte!=""){
+
+	}
+	if(currentnote!=""){
+		
+	}
+}
+function editaction(){
+
+}
+function deleteaction(){
+
 }

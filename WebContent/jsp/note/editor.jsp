@@ -6,7 +6,7 @@
 </head>
 <body>
     <div id="editor">
-        <p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p>
+        <p></p>
     </div>
 
     <!-- 注意， 只需要引用 JS，无需引用任何 CSS ！！！-->

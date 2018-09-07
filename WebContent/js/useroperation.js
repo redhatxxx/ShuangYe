@@ -3,16 +3,14 @@
  */
 
 function jumptologin(){
-	//window.location.href='/FunFamily/user/login';
 	setTimeout("javascript:location.href='/ShuangYe/User/login'", 0); 
 }
 function jumptoregister(){
-	//window.location.href='/FunFamily/user/login';
-	setTimeout("javascript:location.href='/FunFamily/user/register'", 0); 
+	setTimeout("javascript:location.href='/ShuangYe/User/register'", 0); 
 }
 //删除用户
 function deleteuser(id){
-	$.get("/FunFamily/user/deleteuser?userId="+id,function(result){
+	$.get("/ShuangYe/User/deleteuser?userId="+id,function(result){
 		if(result.flag=="1"){
 			alert("删除成功");
 			window.location.reload();
@@ -108,57 +106,16 @@ function user_login(){
 	// document.getElementById("userloginform").submit();
 }
 
-function loginwithcookie(token_id){
-	$.ajax({
-		type : "post",
-		dataType : "json",
-		contentType : "application/json",
-		url : "/ShuangYe/User/loginwithtoken",
-		//提交内容，富文本信息及当前用户id
-		data :JSON.stringify({
-			'token_id' : token_id
-		}),
-		success : function(data) {
-			var backstatus = data.backstatus;
-			if (backstatus == "success") {
-				setTimeout("javascript:location.href='/ShuangYe/Note/getAllInfo'", 0); 
-			} else if (backstatus == "fail") {
-				delCookie(fun_u_uuid);
-			} else {
-				delCookie(fun_u_uuid);
-			}
-		},
-		error : function() {
-			delCookie(fun_u_uuid);
-		}
-	});
-}
-//用户登录
-function submituser(){
-	var param = $("#loginform").serializeArray();
-	$.ajax({
-		type: "post",
-		url:"/FunFamily/user/user_login",
-		data:param
-	});
-}
 //用户登出
 function userlogout(){
-	logoutdeletecookie("username");
-	logoutdeletecookie("fun_u_uuid");
-	setTimeout("javascript:location.href='/FunFamily/user/user_logout'", 0); 
-	//window.location.href="/FunFamily/user/user_logout";  
+	setTimeout("javascript:location.href='/ShuangYe/User/user_logout'", 0); 
+	//window.location.href="/ShuangYe/User/user_logout";  
 }
 
 function jumptouserinfo(){
-	setTimeout("javascript:location.href='/FunFamily/user/edit_userinfo'", 0); 
+	setTimeout("javascript:location.href='/ShuangYe/User/edit_userinfo'", 0); 
 }
 //跳转至编辑用户头像
 function jumptoeidtpic(){
-	setTimeout("javascript:location.href='/FunFamily/user/jumpuserpic'", 0); 
-}
-
-function loginwithuuid(uuid){
-	setTimeout(window.location.href='/FunFamily/user/loginwithuuid?uuid='+uuid, 0);
-//	setTimeout("javascript:location.href='/FunFamily/user/loginwithuuid?uuid='"+uuid, 0); 
+	setTimeout("javascript:location.href='/ShuangYe/User/jumpuserpic'", 0); 
 }

@@ -15,23 +15,11 @@
 	<script type="text/javascript" src="<c:url value="../js/SimpleTree.js"/>"></script>
 	<script type="text/javascript" src="<c:url value="../js/wangEditor.min.js"/>"></script>
 	<script type="text/javascript">
-		window.onload = function(){
-			alrt(1);
-			var flag = "${sessionScope.flag }";
-			if(flag!="1"){
-				var cookievalue = getCookie("fun_u_uuid");
-				if(cookievalue!=null)
-					loginwithcookie(cookievalue);
-			}else{
-				addcookie("fun_u_uuid","${sessionScope.user_id }",0);
-			}
-		}
 		$(function(){
 			$(".st_tree").SimpleTree({
 				/* 可无视代码部分*/
 				click:function(a){
 					if($(a).attr("hasChild")){
-						//alert($(a).attr("ref"));
 						var tagref = $(a).attr("ref");
 						if(tagref=="record"){
 							loadrecord($(a).attr("id"));
@@ -66,6 +54,11 @@
 	</div>
 	<br>
 	<f:view>
+		<div id = "btnarea">
+			<a  href="#" onclick="addnewaction()" id="addnoteaction">添加</a>
+			<a  href="#" onclick="editaction()" id="addtitleaction">更改</a>
+			<a  href="#" onclick="deleteaction()" id="addrecordaction">删除</a>
+		</div>
 		<div class="st_tree" style="width:400px;margin:0 left;">
 			<ul>
 				<c:forEach items="${notelist }" var="note">
@@ -83,11 +76,11 @@
 				</c:forEach>
 			</ul>
 		</div>
-		<div>
+		<div align="left">
 			<label>当前位置:</label>
-			<a href="#" id="locatenote"> </a>			
-			<label style="visibility:hidden" id="totitle">>>></label><a href="#" id="locatetitle"> </a>
-			<label style="visibility:hidden" id="torecord">>>></label><a href="#" id = "locaterecord"> </a>
+			<a href="#" onclick = "cleartitle()" id="locatenote"></a>			
+			<label style="visibility:hidden" id="totitle">>>></label><a href="#" onclick="clearrecord()" id="locatetitle"></a>
+			<label style="visibility:hidden" id="torecord">>>></label><a id = "locaterecord"></a>
 		</div>
 		<div>
 		    <div id="editor">

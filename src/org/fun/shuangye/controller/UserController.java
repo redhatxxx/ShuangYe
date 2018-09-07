@@ -91,13 +91,15 @@ public class UserController{
 	
 	//用户登出
 	@RequestMapping(value="/user_logout")
-	public String userLogout(Model model,HttpSession httpSession){
+	public String userLogout(Model model,HttpServletRequest request, HttpServletResponse response){
+		CookieUtils.delCookie(request, response, "fun_u_uuid");
+		HttpSession httpSession=request.getSession();
 		httpSession.setAttribute("flag", "0");
 		httpSession.removeAttribute("flag");
 		httpSession.removeAttribute("user_id");
 		httpSession.removeAttribute("showname");
-		System.out.println("1");
-		return "redirect:/index";
+		
+		return "redirect:/Note/getAllInfo";
 	} 
 	//保存编辑用户信息
 	@RequestMapping(value="/upload_sculpture")
